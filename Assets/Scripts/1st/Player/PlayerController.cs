@@ -8,9 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	PlayerInput input;
-
 	Rigidbody rigidBody;
-
 	[SerializeField] public float turnSpeed = 100f;
 	[SerializeField] public float moveSpeed = 50f;
 	[SerializeField] private Transform camTransform;
