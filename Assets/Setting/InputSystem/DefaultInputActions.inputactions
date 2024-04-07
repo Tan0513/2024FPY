@@ -39,7 +39,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -269,7 +269,7 @@
                     "path": "<Keyboard>/leftShift",
                     "interactions": "Hold",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
