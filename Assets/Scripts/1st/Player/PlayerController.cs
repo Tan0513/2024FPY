@@ -9,8 +9,11 @@ public class PlayerController : MonoBehaviour
 {
 	PlayerInput input;
 	Rigidbody rigidBody;
+    [SerializeField] Animator animator;
 	[SerializeField] public float turnSpeed = 100f;
-	[SerializeField] public float moveSpeed = 50f;
+    public float moveSpeed = 50f;
+    [SerializeField] public float walkSpeed = 50f;
+    [SerializeField] public float runSpeed = 100f;
 	[SerializeField] private Transform camTransform;
 	[SerializeField] private Transform handTransform;
 	public Vector3 lookDirection;
@@ -39,16 +42,32 @@ public class PlayerController : MonoBehaviour
 
 	public void SetVelocity()
 	{
+
 		if (input.Move)
 		{
-			//取得相機的Forward並歸零Y軸只考慮Z軸與X軸的向量
-			Vector3 camForwardProjection = new Vector3(camTransform.forward.x, 0, camTransform.forward.z).normalized;
-			Vector3 moveDirection = camForwardProjection * input.AxisY * moveSpeed * Time.fixedDeltaTime + camTransform.right * input.AxisX* moveSpeed * Time.fixedDeltaTime;
-			rigidBody.velocity = moveDirection;
+            if(input.Run)
+            {
+                Vector3 camForwardProjection = new Vector3(camTransform.forward.x, 0, camTransform.forward.z).normalized;
+                Vector3 moveDirection = camForwardProjection * input.AxisY * runSpeed * Time.fixedDeltaTime + camTransform.right * input.AxisX* runSpeed * Time.fixedDeltaTime;
+                rigidBody.velocity = moveDirection;
+                animator.SetBool("isWalking",false);
+                animator.SetBool("isRunning",true);
+            }
+            else
+            {
+                //取得相機的Forward並歸零Y軸只考慮Z軸與X軸的向量
+                Vector3 camForwardProjection = new Vector3(camTransform.forward.x, 0, camTransform.forward.z).normalized;
+                Vector3 moveDirection = camForwardProjection * input.AxisY * walkSpeed * Time.fixedDeltaTime + camTransform.right * input.AxisX* walkSpeed * Time.fixedDeltaTime;
+                rigidBody.velocity = moveDirection;
+                animator.SetBool("isWalking",true);
+                animator.SetBool("isRunning",false);
+            }
 		}
 		else
 		{
 			rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
+            animator.SetBool("isWalking",false);
+            animator.SetBool("isRunning",false);
 			return;
 		}
 	}

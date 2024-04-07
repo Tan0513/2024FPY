@@ -12,13 +12,5 @@ public class PlayerState_Run : PlayerState
 
     public override void LogicUpdate()
     {
-        if (!input.Move)
-        {
-            stateMachine.SwitchState(typeof(PlayerState_Idle));
-        }
-        if(input.StopRun)
-        {
-            stateMachine.SwitchState(typeof(PlayerState_Walk));
-        }
     }
 }

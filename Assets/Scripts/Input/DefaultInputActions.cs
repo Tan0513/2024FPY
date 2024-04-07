@@ -17,16 +17,16 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace UnityEngine.InputSystem
 {
-    public partial class @DefaultInputActions: IInputActionCollection2, IDisposable
+    public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     {
         public InputActionAsset asset { get; }
-        public @DefaultInputActions()
+        public @PlayerInputAction()
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""DefaultInputActions"",
     ""maps"": [
         {
-            ""name"": ""GamePlay"",
+            ""name"": ""Gameplay"",
             ""id"": ""df70fa95-8a34-4494-b137-73ab6b9c7d37"",
             ""actions"": [
                 {
@@ -58,8 +58,8 @@ namespace UnityEngine.InputSystem
                 },
                 {
                     ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""d69d9468-a341-4b74-b714-0ba3c25b7f3c"",
+                    ""type"": ""Value"",
+                    ""id"": ""a0e05750-d62a-4061-8cf4-5574d9806837"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -289,9 +289,9 @@ namespace UnityEngine.InputSystem
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e0c6fa46-7761-4bfa-9d04-cf814a7f4af6"",
+                    ""id"": ""b6beec11-e4bf-42b0-8a06-b7bc67365c76"",
                     ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
@@ -880,12 +880,12 @@ namespace UnityEngine.InputSystem
         }
     ]
 }");
-            // GamePlay
-            m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
-            m_GamePlay_Move = m_GamePlay.FindAction("Move", throwIfNotFound: true);
-            m_GamePlay_Look = m_GamePlay.FindAction("Look", throwIfNotFound: true);
-            m_GamePlay_Fire = m_GamePlay.FindAction("Fire", throwIfNotFound: true);
-            m_GamePlay_Run = m_GamePlay.FindAction("Run", throwIfNotFound: true);
+            // Gameplay
+            m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+            m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
+            m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
+            m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
+            m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -956,30 +956,30 @@ namespace UnityEngine.InputSystem
             return asset.FindBinding(bindingMask, out action);
         }
 
-        // GamePlay
-        private readonly InputActionMap m_GamePlay;
-        private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
-        private readonly InputAction m_GamePlay_Move;
-        private readonly InputAction m_GamePlay_Look;
-        private readonly InputAction m_GamePlay_Fire;
-        private readonly InputAction m_GamePlay_Run;
-        public struct GamePlayActions
+        // Gameplay
+        private readonly InputActionMap m_Gameplay;
+        private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+        private readonly InputAction m_Gameplay_Move;
+        private readonly InputAction m_Gameplay_Look;
+        private readonly InputAction m_Gameplay_Fire;
+        private readonly InputAction m_Gameplay_Run;
+        public struct GameplayActions
         {
-            private @DefaultInputActions m_Wrapper;
-            public GamePlayActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_GamePlay_Move;
-            public InputAction @Look => m_Wrapper.m_GamePlay_Look;
-            public InputAction @Fire => m_Wrapper.m_GamePlay_Fire;
-            public InputAction @Run => m_Wrapper.m_GamePlay_Run;
-            public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
+            private @PlayerInputAction m_Wrapper;
+            public GameplayActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_Gameplay_Move;
+            public InputAction @Look => m_Wrapper.m_Gameplay_Look;
+            public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
+            public InputAction @Run => m_Wrapper.m_Gameplay_Run;
+            public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(GamePlayActions set) { return set.Get(); }
-            public void AddCallbacks(IGamePlayActions instance)
+            public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+            public void AddCallbacks(IGameplayActions instance)
             {
-                if (instance == null || m_Wrapper.m_GamePlayActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_GamePlayActionsCallbackInterfaces.Add(instance);
+                if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -994,7 +994,7 @@ namespace UnityEngine.InputSystem
                 @Run.canceled += instance.OnRun;
             }
 
-            private void UnregisterCallbacks(IGamePlayActions instance)
+            private void UnregisterCallbacks(IGameplayActions instance)
             {
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
@@ -1010,21 +1010,21 @@ namespace UnityEngine.InputSystem
                 @Run.canceled -= instance.OnRun;
             }
 
-            public void RemoveCallbacks(IGamePlayActions instance)
+            public void RemoveCallbacks(IGameplayActions instance)
             {
-                if (m_Wrapper.m_GamePlayActionsCallbackInterfaces.Remove(instance))
+                if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
                     UnregisterCallbacks(instance);
             }
 
-            public void SetCallbacks(IGamePlayActions instance)
+            public void SetCallbacks(IGameplayActions instance)
             {
-                foreach (var item in m_Wrapper.m_GamePlayActionsCallbackInterfaces)
+                foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
                     UnregisterCallbacks(item);
-                m_Wrapper.m_GamePlayActionsCallbackInterfaces.Clear();
+                m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
                 AddCallbacks(instance);
             }
         }
-        public GamePlayActions @GamePlay => new GamePlayActions(this);
+        public GameplayActions @Gameplay => new GameplayActions(this);
 
         // UI
         private readonly InputActionMap m_UI;
@@ -1041,8 +1041,8 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_UI_TrackedDeviceOrientation;
         public struct UIActions
         {
-            private @DefaultInputActions m_Wrapper;
-            public UIActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
+            private @PlayerInputAction m_Wrapper;
+            public UIActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
@@ -1188,7 +1188,7 @@ namespace UnityEngine.InputSystem
                 return asset.controlSchemes[m_XRSchemeIndex];
             }
         }
-        public interface IGamePlayActions
+        public interface IGameplayActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);

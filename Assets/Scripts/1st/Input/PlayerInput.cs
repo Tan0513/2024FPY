@@ -10,11 +10,11 @@ public class PlayerInput : MonoBehaviour
 
     public Vector2 axes => playerInputAction.Gameplay.Move.ReadValue<Vector2>();
     public Vector3 moveInput => new Vector3(AxisX, 0f, AxisY);
-    public bool Run => playerInputAction.Gameplay.Run.WasPressedThisFrame();
-    public bool StopRun => playerInputAction.Gameplay.Run.WasReleasedThisFrame();
+    public bool Run => playerInputAction.Gameplay.Run.WasPerformedThisFrame();
     public bool Move => AxisX != 0f || AxisY != 0f;
     public float AxisX => axes.x;
     public float AxisY => axes.y;
+    
 
     void Awake()
     {
