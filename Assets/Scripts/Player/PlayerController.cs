@@ -2,83 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    PlayerInput input;
+	PlayerInput input;
 
-    Rigidbody rigidBody;
-    private Transform playerTransform;
+	Rigidbody rigidBody;
 
-    private CharacterController _controller;
+	[SerializeField] public float turnSpeed = 100f;
+	[SerializeField] public float moveSpeed = 50f;
+	[SerializeField] private Transform camTransform;
+	[SerializeField] private Transform handTransform;
+	public Vector3 lookDirection;
 
-    [SerializeField]public float turnSpeed = 100f;
-    [SerializeField] private Transform camTransform;
-    [SerializeField] private Transform handTransform;
-    public Vector3 lookDirection;
-    private bool hasMoveInput;
+	void Awake()
+	{
+		input = GetComponent<PlayerInput>();
+		rigidBody = GetComponent<Rigidbody>();
+	}
 
-    void Awake()
-    {
-        _controller = GetComponent<CharacterController>();
-        input = GetComponent<PlayerInput>();
-        rigidBody = GetComponent<Rigidbody>();
-    }
+	void Start()
+	{
+		input.EnableGameplayInput();
+	}
 
-    void Start()
-    {
-        playerTransform = transform;
-        input.EnableGameplayInput();
-    }
+	void Update()
+	{
 
-    void Update()
-    {
-        // PlayerRotation();
-    }
-    
+	}
 
-    public void SetVelocity(float speed)
-    {
-        Vector3 inputDirection = new Vector3(input.axes.x, 0.0f, input.axes.y).normalized;
+	private void FixedUpdate()
+	{
+		PlayerRotation();
+		SetVelocity();
+	}
 
-        if (input.axes != Vector2.zero)
-        {
-            inputDirection = camTransform.right * input.axes.x + camTransform.forward * input.axes.y;
-        }
+	public void SetVelocity()
+	{
+		if (input.Move)
+		{
+			//取得相機的Forward並歸零Y軸只考慮Z軸與X軸的向量
+			Vector3 camForwardProjection = new Vector3(camTransform.forward.x, 0, camTransform.forward.z).normalized;
+			Vector3 moveDirection = camForwardProjection * input.AxisY * moveSpeed * Time.fixedDeltaTime + camTransform.right * input.AxisX* moveSpeed * Time.fixedDeltaTime;
+			rigidBody.velocity = moveDirection;
+		}
+		else
+		{
+			rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
+			return;
+		}
+	}
 
-        // _controller.Move(inputDirection.normalized * (speed * Time.deltaTime));
+	public void PlayerRotation()
+	{
+		// 取得相機的forward向量
+		Vector3 cameraDirection = camTransform.forward;
 
-        // Vector3 move = new Vector3(input.moveInput.x * camTransform.forward.x, 0f, input.moveInput.z * camTransform.forward.z).normalized;
-        rigidBody.velocity = inputDirection.normalized * (speed * Time.deltaTime);
-        // Debug.Log(rigidBody.velocity);
-    }
-
-    public void PlayerRotation()
-    {
-        if (input.axes == Vector2.zero)
-        {
-            return;
-        }
-
-        // 取得相機的forward向量
-        Vector3 cameraDirection = camTransform.forward;
-        cameraDirection.y = 0f;
-
-        // 取得玩家前進方向的向量
-        Vector3 playerDirection = playerTransform.forward;
-        playerDirection.y = 0f;
-
-        // 計算相機與玩家前進方向的夾角
-        // float angle = Vector3.Angle(cameraDirection, playerDirection);
-
-        // // 計算目標旋轉角度
-        // Vector3 moveDirection = new Vector3(input.axes.x, 0f, input.axes.y);
-        // moveDirection = Quaternion.LookRotation(cameraDirection) * moveDirection;
-        // moveDirection.y = 0f;
-        // Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-
-        // 旋轉至目標角度
-        playerTransform.rotation = Quaternion.RotateTowards(playerTransform.rotation, Quaternion.LookRotation(cameraDirection, Vector3.up), turnSpeed * Time.deltaTime);
-    }
+		// 旋轉至目標角度
+		Debug.Log(Quaternion.Euler(cameraDirection));
+		transform.rotation = Quaternion.Euler(cameraDirection);
+	}
 }

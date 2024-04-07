@@ -27,6 +27,6 @@ public class PlayerState_Walk : PlayerState
     public override void PhysicUpdate()
     {
         Debug.Log(input.moveInput);
-        player.SetVelocity(walkSpeed);
+        //player.SetVelocity(walkSpeed);
     }
 }
