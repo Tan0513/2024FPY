@@ -34,7 +34,7 @@
                 },
                 {
                     "name": "Run",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "d69d9468-a341-4b74-b714-0ba3c25b7f3c",
                     "expectedControlType": "Button",
                     "processors": "",
