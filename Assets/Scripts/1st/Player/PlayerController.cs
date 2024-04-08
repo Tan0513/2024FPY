@@ -112,11 +112,9 @@ public class PlayerController : MonoBehaviour
 	{
 		//避免重複啟用
 		isCreatingBullet = true;
-		//創建子彈(很耗效能)
 		while (input.Fire)
 		{
-			//等待時間避免快速生成太多子彈
-			Instantiate(bullet, muzzle.position,camTransform.rotation);
+			PoolManager.Release(bullet, muzzle.position, camTransform.rotation);
 			yield return new WaitForSeconds(shootSpeed);
 		}
 		isCreatingBullet = false;

@@ -37,7 +37,7 @@ using UnityEngine;
     {
         GameObject availableObject = null;
 
-        if (queue.Count > 0 && queue.Peek().activeSelf)
+        if (queue.Count > 0 && !queue.Peek().activeSelf)
         {
             availableObject = queue.Dequeue();
         }
@@ -92,4 +92,5 @@ using UnityEngine;
 
         return preparedObject;
     }
+
 }
