@@ -9,16 +9,20 @@ public class PlayerController : MonoBehaviour
 {
 	PlayerInput input;
 	Rigidbody rigidBody;
+	[SerializeField] GameObject bullet;
     [SerializeField] Animator animator;
 	[SerializeField] public float turnSpeed = 100f;
-    public float moveSpeed = 50f;
+	[SerializeField] public float moveSpeed = 50f;
     [SerializeField] public float walkSpeed = 50f;
     [SerializeField] public float runSpeed = 100f;
 	[SerializeField] public float fireSpeed = 100f;
-
+	[SerializeField] private float shootSpeed = 3f;
 	[SerializeField] private Transform camTransform;
 	[SerializeField] private Transform handTransform;
+	[SerializeField] private Transform muzzle;
 	public Vector3 lookDirection;
+	private bool isCreatingBullet = false;
+
 
 	void Awake()
 	{
@@ -33,7 +37,11 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
-
+		if (input.Fire && !isCreatingBullet)
+		{
+			StartCoroutine(CreatBullet());
+		}
+		
 	}
 
 	private void FixedUpdate()
@@ -96,5 +104,21 @@ public class PlayerController : MonoBehaviour
 		// 旋轉至目標角度
 		//Debug.Log(Quaternion.Euler(cameraDirection));
 		transform.rotation = Quaternion.Euler(cameraDirection);
+	}
+
+
+	//協程
+	IEnumerator CreatBullet()
+	{
+		//避免重複啟用
+		isCreatingBullet = true;
+		//創建子彈(很耗效能)
+		while (input.Fire)
+		{
+			//等待時間避免快速生成太多子彈
+			Instantiate(bullet, muzzle.position,camTransform.rotation);
+			yield return new WaitForSeconds(shootSpeed);
+		}
+		isCreatingBullet = false;
 	}
 }
