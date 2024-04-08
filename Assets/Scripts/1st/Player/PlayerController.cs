@@ -37,11 +37,13 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
-		if (input.Fire && !isCreatingBullet)
+		if (input.Fire && 
+			!isCreatingBullet && 
+			animator.GetCurrentAnimatorStateInfo(0).IsName("Fire") &&
+			!animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
 		{
 			StartCoroutine(CreatBullet());
 		}
-		
 	}
 
 	private void FixedUpdate()
