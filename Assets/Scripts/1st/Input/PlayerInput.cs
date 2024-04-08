@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour
     public Vector2 axes => playerInputAction.GamePlay.Move.ReadValue<Vector2>();
     public Vector3 moveInput => new Vector3(AxisX, 0f, AxisY);
     public bool Run => playerInputAction.GamePlay.Run.IsPressed();
+    public bool Fire => playerInputAction.GamePlay.Fire.IsPressed();
     public bool Move => AxisX != 0f || AxisY != 0f;
     public float AxisX => axes.x;
     public float AxisY => axes.y;

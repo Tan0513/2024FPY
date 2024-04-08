@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Date/StateMachine/PlayerState/Walk", fileName = "PlayerState_Walk")]
 public class PlayerState_Walk : PlayerState
 {
-    [SerializeField] float walkSpeed = 50f;
     public override void Enter()
     {
         animator.Play("Walk");

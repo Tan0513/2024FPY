@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 50f;
     [SerializeField] public float walkSpeed = 50f;
     [SerializeField] public float runSpeed = 100f;
+	[SerializeField] public float fireSpeed = 100f;
+
 	[SerializeField] private Transform camTransform;
 	[SerializeField] private Transform handTransform;
 	public Vector3 lookDirection;
@@ -42,11 +44,26 @@ public class PlayerController : MonoBehaviour
 
 	public void SetVelocity()
 	{
-		
+		if(input.Fire)
+		{
+			animator.SetBool("isFire", true);
+		}
+		else
+		{
+			animator.SetBool("isFire", false);
+		}
+
+
 		if (input.Move)
 		{
 			float ms = input.Run ? runSpeed : walkSpeed;
-			Debug.Log(input.Run);
+
+			if(input.Fire)
+			{
+				ms = fireSpeed;
+			}
+
+			// Debug.Log(input.Run);
 			if (input.Run)
 			{
 				animator.SetBool("isWalking", false);

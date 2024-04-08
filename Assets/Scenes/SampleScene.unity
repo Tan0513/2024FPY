@@ -692,8 +692,8 @@ MonoBehaviour:
   animator: {fileID: 1697343667}
   turnSpeed: 100
   moveSpeed: 500
-  walkSpeed: 50
-  runSpeed: 100
+  walkSpeed: 250
+  runSpeed: 500
   camTransform: {fileID: 963194228}
   handTransform: {fileID: 942452166}
   lookDirection: {x: 0, y: 0, z: 0}
