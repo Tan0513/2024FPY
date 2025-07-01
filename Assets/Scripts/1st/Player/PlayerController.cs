@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Transform camTransform;
 	[SerializeField] private Transform handTransform;
 	[SerializeField] private Transform muzzle;
+	[SerializeField] public GameObject bug;
 	public Vector3 lookDirection;
 	private bool isCreatingBullet = false;
 
@@ -44,6 +45,10 @@ public class PlayerController : MonoBehaviour
 		{
 			StartCoroutine(CreatBullet());
 		}
+		if(Input.GetKeyDown(KeyCode.P))
+        {
+            Instantiate(bug);
+        }
 	}
 
 	private void FixedUpdate()
