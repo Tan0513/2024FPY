@@ -18,7 +18,7 @@
 
 ![2024FTY4 5 - 防禦模式 - Windows, Mac, Linux - Unity 2022 3 12f1 _DX11_ 2025-07-01 22-18-45 (1)](https://github.com/user-attachments/assets/f7792cc9-c173-4950-b936-b87d8635a1de)
 
-子彈采用對象池來處理
+子彈采用物件池(Pool)來處理
 
 ![2024FTY4 5 - 防禦模式 - Windows, Mac, Linux - Unity 2022 3 12f1 _DX11_ 2025-07-02 06-48-58](https://github.com/user-attachments/assets/34e76633-f7ed-4926-adab-f522d74335a4)
 
