@@ -26,6 +26,10 @@
 * NavMesh AI
 * Object Pool
 
+
+游戲影片
+https://youtu.be/DbjnCBdSlQY
+
 ----------------------------------------------------------------------------------------------------
 角色用animator和input system來移動
 
